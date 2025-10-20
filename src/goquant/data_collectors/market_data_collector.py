@@ -7,8 +7,6 @@ import yfinance as yf
 from goquant.data_collectors.base import BaseCollector
 from goquant.data_collectors.models import MarketDataPoint
 
-# from goquant.data_collectors.models import MarketDataPoint
-
 
 class MarketDataCollector(BaseCollector):
     """
@@ -22,11 +20,12 @@ class MarketDataCollector(BaseCollector):
         Fetches historical market data (OHLCV) for a given ticker.
 
         Inputs taken:
-        ticker (str): The stock ticker symbol (e.g., "AAPL", "BTC-USD").
-        period (str): The period of data to download. Valid periods include:
+        ticker: The stock ticker symbol (e.g., "AAPL", "BTC-USD").
+        period: The period of data to download. Valid periods include:
                           "1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y", "10y", "ytd", "max".
-        interval (str): The data interval. Valid intervals include:
-                            "1m", "2m", "5m", "15m", "30m", "60m", "90m", "1h", "1d", "5d", "1wk", "1mo", "3mo".
+        interval: The data interval. Valid intervals include:
+                            "1m", "2m", "5m", "15m", "30m", "60m", "90m",
+                            "1h", "1d", "5d", "1wk", "1mo", "3mo".
         """
         stock = yf.Ticker(ticker)
         hist_df = stock.history(period=period, interval=interval)
