@@ -36,11 +36,20 @@ class NewsApiResponse(BaseModel):
 
 
 # Reddit post model
+class RedditComment(BaseModel):
+    """Reddit comment model"""
+
+    comment: str
+    score: int
+
+
 class RedditPost(BaseModel):
     """Reddit post model"""
 
     title: str
     score: int
+    content: str
+    comments: List[RedditComment]
     url: HttpUrl
     num_comments: int
     created_utc: float

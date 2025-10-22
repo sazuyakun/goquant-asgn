@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from goquant.core.logging import logger
 from goquant.data_collectors.base import BaseCollector
 from goquant.data_collectors.models import NewsApiResponse
+from goquant.sentiment_analysis.text_preprocessor import TextPreprocessor
 
 load_dotenv()
 
@@ -24,6 +25,7 @@ class NewsCollector(BaseCollector):
         if not self.api_key:
             raise ValueError("NEWSAPI_API_KEY environment variable not set")
         self.base_url = "https://newsapi.org/v2/everything"
+        self.preprocessor = TextPreprocessor()
 
     def fetch_data(self, query="all", page_size=10) -> NewsApiResponse:
         """
@@ -53,3 +55,13 @@ class NewsCollector(BaseCollector):
 
         # Return a default empty response on failure
         return NewsApiResponse(status="error", totalResults=0, articles=[])
+
+    def preprocess_data(self, news_data: NewsApiResponse) -> NewsApiResponse:
+        """
+        Preprocess the news articles' titles and descriptions.
+        """
+        for article in news_data.articles:
+            article.title = self.preprocessor.preprocess(article.title)
+            if article.description:
+                article.description = self.preprocessor.preprocess(article.description)
+        return news_data

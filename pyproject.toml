@@ -6,13 +6,18 @@ authors = [
     {name = "sazuyakun",email = "sohamsamal37@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.11,<3.15"
 dependencies = [
     "python-dotenv (>=1.1.1,<2.0.0)",
     "praw (>=7.8.1,<8.0.0)",
     "tweepy[async] (>=4.16.0,<5.0.0)",
     "yfinance (>=0.2.66,<0.3.0)",
     "pydantic (>=2.12.3,<3.0.0)",
+    "vadersentiment (>=3.3.2,<4.0.0)",
+    "transformers (>=4.36.0,<4.56.0)",
+    "torch (>=2.9.0,<3.0.0)",
+    "optimum[onnxruntime] (>=2.0.0,<3.0.0)",
+    "onnxruntime (>=1.23.2,<2.0.0)",
 ]
 
 [tool.poetry]
