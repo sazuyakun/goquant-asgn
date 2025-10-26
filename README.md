@@ -1,199 +1,199 @@
-# Back End - Fear & Greed Sentiment Engine
+# Back end - fear & greed sentiment engine
 
-## Objective
+## objective
 
-Create a high-performance sentiment analysis and trade signal generation system that aggregates real-time data from Twitter, Reddit, news feeds, and financial data sources. The system will analyze market sentiment, correlate it with fund flows and market data, and generate actionable trade signals based on fear and greed indicators. The engine will provide real-time sentiment scoring, trend analysis, and predictive signals for various financial instruments.
+create a high-performance sentiment analysis and trade signal generation system that aggregates real-time data from twitter, reddit, news feeds, and financial data sources. the system will analyze market sentiment, correlate it with fund flows and market data, and generate actionable trade signals based on fear and greed indicators. the engine will provide real-time sentiment scoring, trend analysis, and predictive signals for various financial instruments.
 
-## Initial Setup
+## initial setup
 
-[x] 1. Research sentiment analysis techniques and natural language processing (NLP) methodologies
-[x] 2. Set up a Python/C++ development environment with modern Python/C++ standards
-[x] 3. Familiarize yourself with social media APIs (Twitter, Reddit), news APIs, and financial data feeds. Ensure the service is unpaid/free for demo purposes.
-[ ] 4. Study behavioral finance, market psychology, and sentiment-based trading strategies
-[x] 5. Use Kaggle/Google CoLab free tier for NLP processing
+[x] 1. research sentiment analysis techniques and natural language processing (nlp) methodologies
+[x] 2. set up a python/c++ development environment with modern python/c++ standards
+[x] 3. familiarize yourself with social media apis (twitter, reddit), news apis, and financial data feeds. ensure the service is unpaid/free for demo purposes.
+[ ] 4. study behavioral finance, market psychology, and sentiment-based trading strategies
+[x] 5. use kaggle/google colab free tier for nlp processing
 
-## Backend Components
+## backend components
 
-1. Implement a high-performance data ingestion engine:
-   [ ] - Real-time Twitter feed processing and filtering
-   [x] - Reddit post and comment stream analysis
-   [x] - News article aggregation from multiple sources
-   [x] - Financial data integration (prices, volumes, fund flows)
+1. implement a high-performance data ingestion engine:
+   [ ] - real-time twitter feed processing and filtering
+   [x] - reddit post and comment stream analysis
+   [x] - news article aggregation from multiple sources
+   [x] - financial data integration (prices, volumes, fund flows)
 
-2. Create sentiment analysis and processing system:
-   [ ] - Multi-source text processing and normalization
-   [x] - Natural language processing and sentiment scoring
-   [ ] - Entity recognition and financial instrument tagging
-   [ ] - Real-time sentiment aggregation and trending
+2. create sentiment analysis and processing system:
+   [ ] - multi-source text processing and normalization
+   [x] - natural language processing and sentiment scoring
+   [ ] - entity recognition and financial instrument tagging
+   [ ] - real-time sentiment aggregation and trending
 
-3. Implement signal generation and correlation engine:
-   [ ] - Fund flow correlation analysis
-   [ ] - Multi-timeframe sentiment trend detection
-   [ ] - Fear & greed index calculation and calibration
-   [ ] - Trade signal generation with confidence scoring
+3. implement signal generation and correlation engine:
+   [ ] - fund flow correlation analysis
+   [ ] - multi-timeframe sentiment trend detection
+   [ ] - fear & greed index calculation and calibration
+   [ ] - trade signal generation with confidence scoring
 
-## Input Parameters
+## input parameters
 
-[x] 1. Data Sources: Twitter API, Reddit API, news aggregators, financial data feeds
-[ ] 2. Sentiment Targets: Cryptocurrencies, stocks, sectors, market indices
-[ ] 3. Analysis Timeframes: Real-time, 1-minute, 5-minute, hourly, daily aggregations
-[ ] 4. Filter Criteria: Language, geography, user influence, content quality
-[ ] 5. Correlation Parameters: Fund flow data, price movements, volume patterns
-[ ] 6. Signal Parameters: Threshold levels, confidence requirements, risk adjustments
+[x] 1. data sources: twitter api, reddit api, news aggregators, financial data feeds
+[ ] 2. sentiment targets: cryptocurrencies, stocks, sectors, market indices
+[ ] 3. analysis timeframes: real-time, 1-minute, 5-minute, hourly, daily aggregations
+[ ] 4. filter criteria: language, geography, user influence, content quality
+[ ] 5. correlation parameters: fund flow data, price movements, volume patterns
+[ ] 6. signal parameters: threshold levels, confidence requirements, risk adjustments
 
-## Output Parameters
+## output parameters
 
-1. Sentiment Metrics: Real-time sentiment analysis results
-   [ ] - Overall market sentiment scores (fear/greed scale)
-   [ ] - Asset-specific sentiment ratings
-   [ ] - Sentiment momentum and trend indicators
-   [ ] - Geographic and demographic sentiment breakdown
+1. sentiment metrics: real-time sentiment analysis results
+   [ ] - overall market sentiment scores (fear/greed scale)
+   [ ] - asset-specific sentiment ratings
+   [ ] - sentiment momentum and trend indicators
+   [ ] - geographic and demographic sentiment breakdown
 
-2. Trade Signals: Actionable trading recommendations
-   [ ] - Buy/sell signals with confidence levels
-   [ ] - Signal strength and conviction scoring
-   [ ] - Risk-adjusted position sizing recommendations
-   [ ] - Signal duration and expected holding periods
+2. trade signals: actionable trading recommendations
+   [ ] - buy/sell signals with confidence levels
+   [ ] - signal strength and conviction scoring
+   [ ] - risk-adjusted position sizing recommendations
+   [ ] - signal duration and expected holding periods
 
-3. Correlation Analytics:
-   [ ] - Sentiment-price correlation coefficients
-   [ ] - Fund flow correlation analysis
-   [ ] - Predictive power metrics and backtesting results
-   [ ] - Cross-asset sentiment contagion indicators
+3. correlation analytics:
+   [ ] - sentiment-price correlation coefficients
+   [ ] - fund flow correlation analysis
+   [ ] - predictive power metrics and backtesting results
+   [ ] - cross-asset sentiment contagion indicators
 
-4. Performance Metrics:
-   [ ] - Data processing throughput and latency
-   [ ] - Sentiment analysis accuracy and calibration
-   [ ] - Signal generation speed and reliability
-   [ ] - Prediction accuracy and alpha generation
+4. performance metrics:
+   [ ] - data processing throughput and latency
+   [ ] - sentiment analysis accuracy and calibration
+   [ ] - signal generation speed and reliability
+   [ ] - prediction accuracy and alpha generation
 
-## Technical Requirements
+## technical requirements
 
-1. Implementation in either Python/C++:
-   [x] - Use modern python 3 or C++ features (C++17/20)
-   [ ] - Implement efficient text processing and memory management
-   [ ] - Use appropriate data structures for real-time stream processing
+1. implementation in either python/c++:
+   [x] - use modern python 3 or c++ features (c++17/20)
+   [ ] - implement efficient text processing and memory management
+   [ ] - use appropriate data structures for real-time stream processing
 
-2. Multi-threading:
-   [x] - Separate threads for different data sources
-   [ ] - Thread-safe sentiment aggregation and analysis
-   [ ] - Concurrent signal generation and risk management
+2. multi-threading:
+   [x] - separate threads for different data sources
+   [ ] - thread-safe sentiment aggregation and analysis
+   [ ] - concurrent signal generation and risk management
 
-3. Performance Requirements:
-   [ ] - Process social media streams at peak rates (10,000+ posts/minute)
-   [x] - Generate sentiment scores within 100ms of data ingestion
-   [ ] - Produce trade signals within 500ms of sentiment threshold events
+3. performance requirements:
+   [ ] - process social media streams at peak rates (10,000+ posts/minute)
+   [x] - generate sentiment scores within 100ms of data ingestion
+   [ ] - produce trade signals within 500ms of sentiment threshold events
 
-### TODO: Do this on the last day (Sunday)
+### todo: do this on the last day (sunday)
 
-4. Error Handling:
-   [ ] - Robust API connection management and retry logic
-   [ ] - Graceful degradation on data source failures
-   [ ] - Rate limiting and quota management for APIs
+4. error handling:
+   [ ] - robust api connection management and retry logic
+   [ ] - graceful degradation on data source failures
+   [ ] - rate limiting and quota management for apis
 
-5. Code Quality:
-   [ ] - Clean, maintainable architecture
-   [ ] - Proper separation of concerns
-   [ ] - Unit tests for critical NLP and signal generation components
+5. code quality:
+   [ ] - clean, maintainable architecture
+   [ ] - proper separation of concerns
+   [ ] - unit tests for critical nlp and signal generation components
 
-# Bonus Section (recommended): Advanced Features and Optimization
+# bonus section (recommended): advanced features and optimization
 
-## Advanced NLP and Machine Learning
+## advanced nlp and machine learning
 
-1. Deep Learning Integration:
-   [x] - Transformer models for context-aware sentiment analysis
-   [x] - Custom financial language models (FinBERT variants)
-   [x] - Real-time model inference optimization
+1. deep learning integration:
+   [x] - transformer models for context-aware sentiment analysis
+   [x] - custom financial language models (finbert variants)
+   [x] - real-time model inference optimization
 
-2. Advanced Text Analysis:
-   [ ] - Sarcasm and irony detection
-   [ ] - Multi-language sentiment analysis
-   [ ] - Image and video content analysis for social media
+2. advanced text analysis:
+   [ ] - sarcasm and irony detection
+   [ ] - multi-language sentiment analysis
+   [ ] - image and video content analysis for social media
 
-3. Predictive Modeling:
-   [ ] - Sentiment-based price movement prediction
-   [ ] - Market regime classification using sentiment patterns
-   [ ] - Ensemble methods for improved signal accuracy
+3. predictive modeling:
+   [ ] - sentiment-based price movement prediction
+   [ ] - market regime classification using sentiment patterns
+   [ ] - ensemble methods for improved signal accuracy
 
-## Performance Optimization
+## performance optimization
 
-1. Memory Management:
-   [ ] - Custom allocators for text processing
-   [ ] - Memory pools for frequent NLP operations
-   [ ] - Efficient string handling and text storage
+1. memory management:
+   [ ] - custom allocators for text processing
+   [ ] - memory pools for frequent nlp operations
+   [ ] - efficient string handling and text storage
 
-2. Algorithm Optimization:
-   [ ] - SIMD instructions for numerical computations
-   [ ] - Lock-free data structures for high-frequency updates
-   [ ] - GPU acceleration for machine learning inference
+2. algorithm optimization:
+   [ ] - simd instructions for numerical computations
+   [ ] - lock-free data structures for high-frequency updates
+   [ ] - gpu acceleration for machine learning inference
 
-3. Data Processing Optimization:
-   [ ] - Streaming text processing pipelines
-   [ ] - Incremental sentiment computation
-   [ ] - Efficient caching and data compression
+3. data processing optimization:
+   [ ] - streaming text processing pipelines
+   [ ] - incremental sentiment computation
+   [ ] - efficient caching and data compression
 
-## Advanced Analytics and Correlation
+## advanced analytics and correlation
 
-1. Market Psychology Analysis:
-   [ ] - Fear and greed index calibration and validation
-   [ ] - Behavioral bias detection in sentiment patterns
-   [ ] - Crowd psychology and contrarian signal generation
+1. market psychology analysis:
+   [ ] - fear and greed index calibration and validation
+   [ ] - behavioral bias detection in sentiment patterns
+   [ ] - crowd psychology and contrarian signal generation
 
-2. Cross-Market Analysis:
-   [ ] - Sentiment contagion across different asset classes
-   [ ] - Geographic sentiment arbitrage opportunities
-   [ ] - Cross-platform sentiment consistency analysis
+2. cross-market analysis:
+   [ ] - sentiment contagion across different asset classes
+   [ ] - geographic sentiment arbitrage opportunities
+   [ ] - cross-platform sentiment consistency analysis
 
-3. Alternative Data Integration:
-   [ ] - Satellite data and alternative economic indicators
-   [ ] - Corporate earnings call sentiment analysis
-   [ ] - Regulatory filing and SEC document analysis
+3. alternative data integration:
+   [ ] - satellite data and alternative economic indicators
+   [ ] - corporate earnings call sentiment analysis
+   [ ] - regulatory filing and sec document analysis
 
-## Documentation Requirements
+## documentation requirements
 
-1. Technical Documentation:
-   [ ] - System architecture and NLP pipeline design
-   [ ] - Machine learning model documentation
-   [ ] - Performance benchmarking and validation results
+1. technical documentation:
+   [ ] - system architecture and nlp pipeline design
+   [ ] - machine learning model documentation
+   [ ] - performance benchmarking and validation results
 
-2. Code Documentation:
-   [ ] - Comprehensive inline comments
-   [ ] - API documentation for all modules
-   [ ] - Setup and configuration guides
+2. code documentation:
+   [ ] - comprehensive inline comments
+   [ ] - api documentation for all modules
+   [ ] - setup and configuration guides
 
-3. Financial Documentation:
-   [ ] - Sentiment analysis methodology
-   [ ] - Signal generation strategy and backtesting results
-   [ ] - Risk management framework
+3. financial documentation:
+   [ ] - sentiment analysis methodology
+   [ ] - signal generation strategy and backtesting results
+   [ ] - risk management framework
 
-4. Research Documentation:
-   [ ] - Literature review on sentiment analysis in finance
-   [ ] - Model validation and statistical testing
-   [ ] - Performance attribution and alpha analysis
+4. research documentation:
+   [ ] - literature review on sentiment analysis in finance
+   [ ] - model validation and statistical testing
+   [ ] - performance attribution and alpha analysis
 
-## Deliverables
+## deliverables
 
-1. Complete source code with comprehensive documentation
+1. complete source code with comprehensive documentation
 
-2. Video recording demonstrating:
-   [ ] - System functionality and real-time operation
-   [ ] - Sentiment analysis pipeline and visualization
-   [ ] - Signal generation process and backtesting results
-   [ ] - Code architecture and optimization techniques
-   [ ] - Integration with multiple data sources
+2. video recording demonstrating:
+   [ ] - system functionality and real-time operation
+   [ ] - sentiment analysis pipeline and visualization
+   [ ] - signal generation process and backtesting results
+   [ ] - code architecture and optimization techniques
+   [ ] - integration with multiple data sources
 
-3. Technical report including:
-   [ ] - Design decisions and trade-offs
-   [ ] - NLP model selection and validation
-   [ ] - Performance optimization strategies
-   [ ] - Signal generation methodology
-   [ ] - Future research directions and improvements
+3. technical report including:
+   [ ] - design decisions and trade-offs
+   [ ] - nlp model selection and validation
+   [ ] - performance optimization strategies
+   [ ] - signal generation methodology
+   [ ] - future research directions and improvements
 
-## Evaluation Criteria
+## evaluation criteria
 
-[ ] 1. Code Quality: Clean, maintainable, and well-documented C++ code
-[ ] 2. Performance: Efficient real-time text processing and analysis
-[ ] 3. Architecture: Scalable and extensible NLP pipeline design
-[ ] 4. Technical Innovation: Creative solutions to sentiment analysis challenges
-[ ] 5. Financial Relevance: Sound correlation analysis and signal generation
-[ ] 6. Integration: Effective multi-source data aggregation and processing
+[ ] 1. code quality: clean, maintainable, and well-documented c++ code
+[ ] 2. performance: efficient real-time text processing and analysis
+[ ] 3. architecture: scalable and extensible nlp pipeline design
+[ ] 4. technical innovation: creative solutions to sentiment analysis challenges
+[ ] 5. financial relevance: sound correlation analysis and signal generation
+[ ] 6. integration: effective multi-source data aggregation and processing

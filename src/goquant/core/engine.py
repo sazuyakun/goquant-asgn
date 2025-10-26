@@ -1,9 +1,11 @@
 """Main data ingestion engine"""
 
 import concurrent.futures as cf
+from typing import Dict
 
 from goquant.core.logging import logger
 from goquant.data_collectors import MarketDataCollector, NewsCollector, RedditCollector
+from goquant.sentiment_analysis.onnx_finbert import OnnxFinBert
 
 
 class IngestionEngine:
@@ -64,3 +66,63 @@ class IngestionEngine:
 
         reddit_data, news_data = self.preprocess_text(reddit_data, news_data)
         return {"reddit": reddit_data, "news": news_data, "market": market_data}
+
+
+class SentimentEngine:
+    def __init__(self):
+        self.model = OnnxFinBert()
+
+    def _analyze_reddit_sentiment(self, reddit_data):
+        """
+        Analyzes sentiment for Reddit data.
+        """
+        texts = []
+        for post in reddit_data:
+            texts.append(post.title)
+            # if post.content:
+            #     texts.append(post.content)
+            if post.comments:
+                for comment in post.comments:
+                    texts.append(comment.comment)
+
+        sentiments = self.model.predict(texts)
+        return sentiments
+
+    def _analyze_news_sentiment(self, news_data):
+        """
+        Analyzes sentiment for News data.
+        """
+        texts = []
+        for article in news_data.articles:
+            texts.append(article.title)
+            if article.description:
+                texts.append(article.description)
+            # if article.content:
+            #     texts.append(article.content)
+
+        sentiments = self.model.predict(texts)
+        return sentiments
+
+    def run(self, data: Dict):
+        """
+        Analyzes sentiment for Reddit and News data.
+        """
+        # reddit_sentiments = self._analyze_reddit_sentiment(data["reddit"])
+        # news_sentiments = self._analyze_news_sentiment(data["news"])
+        # return {
+        #     "reddit_sentiments": reddit_sentiments,
+        #     "news_sentiments": news_sentiments,
+        # }
+        with cf.ThreadPoolExecutor(max_workers=2) as executor:
+            future_reddit = executor.submit(
+                self._analyze_reddit_sentiment, data["reddit"]
+            )
+            future_news = executor.submit(self._analyze_news_sentiment, data["news"])
+
+            reddit_sentiments = future_reddit.result()
+            news_sentiments = future_news.result()
+
+            return {
+                "reddit_sentiments": reddit_sentiments,
+                "news_sentiments": news_sentiments,
+            }
