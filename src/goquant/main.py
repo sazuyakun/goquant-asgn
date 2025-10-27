@@ -2,8 +2,16 @@ import argparse
 import logging
 import sys
 
+# from goquant.consumers.aggregator_consumer import AggregatorConsumer
+# from goquant.consumers.sentiment_consumer import SentimentConsumer
+from goquant.consumers import (
+    AggregatorConsumer,
+    LoggingSink,
+    SentimentConsumer,
+    SignalConsumer,
+)
+
 # Import Consumers
-from goquant.consumers.sentiment_consumer import SentimentConsumer
 from goquant.core.config import load_config
 from goquant.core.logging_config import setup_logging
 from goquant.producers.market_data_producer import MarketDataProducer
@@ -12,7 +20,6 @@ from goquant.producers.news_producer import NewsProducer
 # Import Producers
 from goquant.producers.reddit_producer import RedditProducer
 
-# from goquant.consumers.aggregator_consumer import AggregatorConsumer
 # from goquant.consumers.signal_consumer import SignalConsumer
 # from goquant.consumers.logging_sink import LoggingSink
 
@@ -95,13 +102,13 @@ def main():
             if args.consumer_name == "sentiment":
                 # UPDATED: Pass the asset list for the NER keywords
                 service = SentimentConsumer(config)
-            # elif args.consumer_name == "aggregator":
-            #     # UPDATED: Pass the asset list to build state trackers
-            #     service = AggregatorConsumer(config.get('assets', []))
-            # elif args.consumer_name == "signal":
-            #     service = SignalConsumer()
-            # elif args.consumer_name == "logger":
-            #     service = LoggingSink()
+            elif args.consumer_name == "aggregator":
+                # UPDATED: Pass the asset list to build state trackers
+                service = AggregatorConsumer(config)
+            elif args.consumer_name == "signal":
+                service = SignalConsumer()
+            elif args.consumer_name == "logger":
+                service = LoggingSink()
 
         # --- Service Execution ---
         if service:
@@ -113,11 +120,9 @@ def main():
             parser.print_help()
 
     except KeyboardInterrupt:
-        logger.info(
-            f"Shutdown signal received for {args.service_type} {args.producer_name or args.consumer_name}."
-        )
+        logger.info("Shutdown signal received. Exiting service gracefully.")
     except Exception as e:
-        logger.critical(f"Unhandled exception in service: {e}", exc_info=True)
+        logger.critical("Unhandled exception in service: %s", e, exc_info=True)
     finally:
         if service:
             service.close()

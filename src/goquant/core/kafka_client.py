@@ -3,6 +3,7 @@
 import json
 import logging
 import time
+from typing import List, Union
 
 from kafka import KafkaConsumer, KafkaProducer
 from kafka.errors import NoBrokersAvailable
@@ -38,22 +39,30 @@ def get_kafka_producer(retries=5, delay=5) -> KafkaProducer:
     raise NoBrokersAvailable("Could not connect to Kafka brokers.")
 
 
-def get_kafka_consumer(topic: str, group_id: str, retries=5, delay=5) -> KafkaConsumer:
+def get_kafka_consumer(
+    topic: Union[str, List[str]],
+    group_id: str,
+    retries=5,
+    delay=5,
+    auto_offset_reset="earliest",
+) -> KafkaConsumer:
     """
     Create and return a Kafka consumer instance.
     """
     for attempt in range(retries):
         try:
+            topics_to_subscribe = [topic] if isinstance(topic, str) else topic
             consumer = KafkaConsumer(
-                topic,
+                *topics_to_subscribe,
                 bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
-                auto_offset_reset="earliest",  # Beginning of the topic
+                auto_offset_reset=auto_offset_reset,  # Beginning of the topic
                 group_id=group_id,
                 value_deserializer=lambda v: json.loads(v.decode("utf-8")),
             )
+            topic_str = ", ".join(topics_to_subscribe)
             logger.info(
                 "Kafka consumer created successfully for topic: %s with group_id: %s",
-                topic,
+                topic_str,
                 group_id,
             )
             return consumer

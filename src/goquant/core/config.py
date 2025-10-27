@@ -16,7 +16,6 @@ def load_env():
     env_path = ".env"
     if os.path.exists(env_path):
         load_dotenv(env_path)
-        print(os.getenv("REDDIT_CLIENT_ID"))
         logger.info(".env file loaded.")
     else:
         logger.warning(".env file not found. API Keys may be missing.")

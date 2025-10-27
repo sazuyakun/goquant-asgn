@@ -14,14 +14,14 @@ assets:
     reddit_subreddits: ["bitcoin", "btc", "CryptoCurrency"]
     news_queries: ["bitcoin", "crypto"]
 
-  - name: "Tesla"
-    ticker: "TSLA"
-    keywords: ["tesla", "tsla"]
-    reddit_subreddits: ["tesla", "teslamotors", "TSLA"]
-    news_queries: ["tesla", "elon musk"]
-
-  - name: "NVIDIA"
-    ticker: "NVDA"
-    keywords: ["nvidia", "nvda"]
-    reddit_subreddits: ["nvidia", "nvda", "AIChips"]
-    news_queries: ["nvidia", "AI chip"]
+  # - name: "Tesla"
+  #   ticker: "TSLA"
+  #   keywords: ["tesla", "tsla"]
+  #   reddit_subreddits: ["tesla", "teslamotors", "TSLA"]
+  #   news_queries: ["tesla", "elon musk"]
+  #
+  # - name: "NVIDIA"
+  #   ticker: "NVDA"
+  #   keywords: ["nvidia", "nvda"]
+  #   reddit_subreddits: ["nvidia", "nvda", "AIChips"]
+  #   news_queries: ["nvidia", "AI chip"]

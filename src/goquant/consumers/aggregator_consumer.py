@@ -1,10 +1,11 @@
 import logging
 import time
 from collections import defaultdict, deque
-from typing import Any, Deque, Dict, List, Tuple
+from typing import Any, Deque, Dict, List, Optional, Tuple
 
 from kafka import KafkaConsumer, KafkaProducer
 
+from goquant.consumers.base import BaseConsumer
 from goquant.core.kafka_client import get_kafka_consumer, get_kafka_producer
 from goquant.schemas import (
     AggregatedMetricsMessage,
@@ -37,9 +38,11 @@ class AssetAggregator:
         self.last_sentiment_1min = 0.0
 
     def add_sentiment(self, timestamp: float, score: float):
+        """Adds a new sentiment data point."""
         self.sentiment_window.append((timestamp, score))
 
     def add_market_data(self, timestamp: float, price: float, volume: float):
+        """Adds a new market data point."""
         self.price_window.append((timestamp, price))
         self.current_price = price
         self.current_volume = volume
@@ -144,7 +147,7 @@ class AssetAggregator:
         )
 
 
-class AggregatorConsumer:
+class AggregatorConsumer(BaseConsumer):
     """
     Consumes from 'analyzed_sentiment' AND 'raw_market_data',
     aggregates data in-memory, and produces to 'aggregated_metrics'.
@@ -153,12 +156,16 @@ class AggregatorConsumer:
 
     PUBLISH_INTERVAL_SECONDS = 5  # Publish new F&G index every 5s
 
-    def __init__(self, assets: List[Dict[str, Any]]):
+    def __init__(self, config: Dict[str, Any]):
         logger.info("Initializing AggregatorConsumer...")
         self.consumer: KafkaConsumer = get_kafka_consumer(
-            topic="analyzed_sentiment,raw_market_data",  # Subscribe to multiple topics
+            topic=[
+                "analyzed_sentiment",
+                "raw_market_data",
+            ],  # Subscribe to multiple topics
             group_id="aggregators",
         )
+        self.assets = config.get("assets", [])
         self.producer: KafkaProducer = get_kafka_producer()
         self.out_topic = "aggregated_metrics"
 
@@ -167,7 +174,7 @@ class AggregatorConsumer:
 
         # Map tickers back to asset names from config
         self.ticker_to_asset_name: Dict[str, str] = {}
-        for asset in assets:
+        for asset in self.assets:
             self.ticker_to_asset_name[asset["ticker"]] = asset["name"]
             self.asset_aggregators[asset["name"]] = AssetAggregator(
                 asset["name"], asset["ticker"]
@@ -204,8 +211,8 @@ class AggregatorConsumer:
                         self.last_publish_time = now
 
                         for asset_name, aggregator in self.asset_aggregators.items():
-                            if aggregator.current_price == 0.0:
-                                continue  # Don't publish if no market data yet
+                            # if aggregator.current_price == 0.0:
+                            #     continue  # Don't publish if no market data yet
 
                             metrics_message = aggregator.aggregate()
                             self.producer.send(
@@ -224,7 +231,7 @@ class AggregatorConsumer:
             self.close()
 
     def close(self):
-        """Graceful shutdown."""
+        """Shutdown..."""
         logger.info("Closing AggregatorConsumer.")
         if self.consumer:
             self.consumer.close()
