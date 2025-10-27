@@ -113,21 +113,29 @@ class SignalConsumer(BaseConsumer):
                     self.producer.send(
                         self.out_topic, value=output_message.model_dump()
                     )
-                    self.last_signal_time[data.asset_name] = now  # Update cooldown
 
+                    # Update cooldown for non-HOLD signals
                     if signal != "HOLD":
+                        self.last_signal_time[data.asset_name] = now
+
+                    # Logging with color coding
+                    if signal == "BUY":
                         logger.warning(
-                            "!!! SIGNAL | %s | %s | Conf: %.2f | %s",
-                            data.asset_name,
-                            signal,
-                            confidence,
-                            reason,
+                            f"🟢 SIGNAL | {data.asset_name: <8} | "
+                            f"**{signal}** | Conf: {confidence:.2f} | "
+                            f"F&G: {data.fear_greed_score:.1f} | {reason}"
+                        )
+                    elif signal == "SELL":
+                        logger.warning(
+                            f"🔴 SIGNAL | {data.asset_name: <8} | "
+                            f"**{signal}** | Conf: {confidence:.2f} | "
+                            f"F&G: {data.fear_greed_score:.1f} | {reason}"
                         )
                     else:
                         logger.info(
-                            "No trade signal for %s. FG Score: %d",
-                            data.asset_name,
-                            data.fear_greed_score,
+                            f"⚪ SIGNAL | {data.asset_name: <8} | "
+                            f"{signal} | F&G: {data.fear_greed_score:.1f} | "
+                            f"Sent: {data.sentiment_5min_avg:.3f}"
                         )
 
                 except Exception as e:
