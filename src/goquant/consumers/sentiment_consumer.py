@@ -1,3 +1,5 @@
+"""Sentiment Analysis Consumer Module"""
+
 import logging
 from typing import Any, Dict, List, Set
 

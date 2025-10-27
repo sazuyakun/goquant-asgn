@@ -1,3 +1,5 @@
+"""Signal Consumer Module."""
+
 import logging
 import time
 from typing import Dict
@@ -44,7 +46,7 @@ class SignalConsumer(BaseConsumer):
                     data = AggregatedMetricsMessage.model_validate(message.value)
 
                     # Check cooldown
-                    last_time = self.last_signal_time.get(data.asset_name, 0)
+                    # last_time = self.last_signal_time.get(data.asset_name, 0)
                     # if (now - last_time) < self.COOLDOWN_SECONDS:
                     #     continue  # In cooldown, skip logic
 
@@ -115,7 +117,7 @@ class SignalConsumer(BaseConsumer):
 
                     if signal != "HOLD":
                         logger.warning(
-                            f"!!! SIGNAL | %s | %s | Conf: %.2f | %s",
+                            "!!! SIGNAL | %s | %s | Conf: %.2f | %s",
                             data.asset_name,
                             signal,
                             confidence,

@@ -1,3 +1,5 @@
+"""Main entry point for launching producers and consumers"""
+
 import argparse
 import logging
 import sys
@@ -10,14 +12,10 @@ from goquant.consumers import (
     SentimentConsumer,
     SignalConsumer,
 )
-
-# Import Consumers
 from goquant.core.config import load_config
 from goquant.core.logging_config import setup_logging
 from goquant.producers.market_data_producer import MarketDataProducer
 from goquant.producers.news_producer import NewsProducer
-
-# Import Producers
 from goquant.producers.reddit_producer import RedditProducer
 
 # from goquant.consumers.signal_consumer import SignalConsumer
@@ -35,7 +33,7 @@ def main():
     """
     setup_logging()
 
-    # Load configuration
+    # loading configuration...
     try:
         config = load_config()
         logger.info("Configuration 'config/targets.yml' loaded.")
@@ -46,7 +44,7 @@ def main():
         logger.error("FATAL: Error loading config: %s", e)
         sys.exit(1)
 
-    # --- CLI Argument Parsing ---
+    # cli argument parsing
     parser = argparse.ArgumentParser(description="Fear & Greed Sentiment Engine")
     subparsers = parser.add_subparsers(dest="service_type", required=True)
 
@@ -91,7 +89,6 @@ def main():
                 sys.exit(0)
 
             if args.producer_name == "reddit":
-                # UPDATED: Pass the whole config
                 service = RedditProducer(config)
             elif args.producer_name == "news":
                 service = NewsProducer(config)
@@ -100,10 +97,8 @@ def main():
 
         elif args.service_type == "consumer":
             if args.consumer_name == "sentiment":
-                # UPDATED: Pass the asset list for the NER keywords
                 service = SentimentConsumer(config)
             elif args.consumer_name == "aggregator":
-                # UPDATED: Pass the asset list to build state trackers
                 service = AggregatorConsumer(config)
             elif args.consumer_name == "signal":
                 service = SignalConsumer()
@@ -112,9 +107,7 @@ def main():
 
         # --- Service Execution ---
         if service:
-            # logger.info(
-            #     f"Starting service: {args.service_type} {args.producer_name or args.consumer_name}"
-            # )
+            logger.info("Starting service...")
             service.run()
         else:
             parser.print_help()
@@ -126,13 +119,6 @@ def main():
     finally:
         if service:
             service.close()
-
-        # producer_name = getattr(args, "producer_name", None)
-        # consumer_name = getattr(args, "consumer_name", None)
-        #
-        # logger.info(
-        #     f"Service {args.service_type} {producer_name or consumer_name} shut down successfully."
-        # )
 
 
 if __name__ == "__main__":

@@ -1,7 +1,9 @@
+"""Aggregator Consumer: Aggregates sentiment and market data to compute Fear & Greed Index."""
+
 import logging
 import time
-from collections import defaultdict, deque
-from typing import Any, Deque, Dict, List, Optional, Tuple
+from collections import deque
+from typing import Any, Deque, Dict, Optional, Tuple
 
 from kafka import KafkaConsumer, KafkaProducer
 
@@ -27,7 +29,7 @@ class AssetAggregator:
         self.ticker = ticker
 
         # Windows to store (timestamp, value) tuples
-        # This implements: Input Parameter 3: Analysis Timeframes
+        # Analysis Timeframes
         self.sentiment_window: Deque[Tuple[float, float]] = deque()
         self.price_window: Deque[Tuple[float, float]] = deque()
 
@@ -77,16 +79,16 @@ class AssetAggregator:
         """
         now = time.time()
 
-        # 1. Prune all windows to 15 minutes max
+        # - Prune all windows to 15 minutes max
         self._prune_window(self.sentiment_window, 15 * 60)
         self._prune_window(self.price_window, 15 * 60)
 
-        # 2. Helper to filter window by time
+        # - Helper to filter window by time
         def filter_window(window, seconds):
             return deque(item for item in window if item[0] >= (now - seconds))
 
-        # 3. Calculate metrics
-        # Implements: Backend Component 3: Multi-timeframe trend detection
+        # - Calculate metrics
+        # Multi-timeframe trend detection
         sent_1min = self._calculate_avg(filter_window(self.sentiment_window, 60))
         sent_5min = self._calculate_avg(filter_window(self.sentiment_window, 300))
         sent_15min = self._calculate_avg(self.sentiment_window)
@@ -98,29 +100,28 @@ class AssetAggregator:
             filter_window(self.price_window, 300)
         )
 
-        # Implements: Output Param 1: Sentiment momentum
+        # Implements Sentiment momentum
         velocity = None
         if sent_1min is not None:
             if self.last_sentiment_1min != 0:
                 velocity = sent_1min - self.last_sentiment_1min
             self.last_sentiment_1min = sent_1min
 
-        # 4. --- Calculate Fear & Greed Index (0-100) ---
-        # This is the "behavioral finance" logic.
+        # - Calculate Fear & Greed Index (0-100)
 
-        # Component 1: Sentiment (50% weight) - (scale -1..1 to 0..100)
+        # Sentiment (50% weight) - (scale -1..1 to 0..100)
         sent_score = 50
         if sent_5min is not None:
             sent_score = (sent_5min + 1) * 50
 
-        # Component 2: Price Momentum (30% weight) - (scale -5%..5% to 0..100)
-        # This simulates: Backend Component 3: Fund flow correlation
+        # Price Momentum (30% weight) - (scale -5%..5% to 0..100)
+        # Fund flow correlation
         momentum_score = 50
         if price_5min_pct is not None:
             clamped_pct = max(-5, min(5, price_5min_pct))  # Cap at +/- 5%
             momentum_score = (clamped_pct + 5) * 10
 
-        # Component 3: Sentiment Velocity (20% weight) - (scale -0.5..0.5 to 0..100)
+        # Sentiment Velocity (20% weight) - (scale -0.5..0.5 to 0..100)
         velocity_score = 50
         if velocity is not None:
             clamped_vel = max(-0.5, min(0.5, velocity))  # Cap change
@@ -159,10 +160,11 @@ class AggregatorConsumer(BaseConsumer):
     def __init__(self, config: Dict[str, Any]):
         logger.info("Initializing AggregatorConsumer...")
         self.consumer: KafkaConsumer = get_kafka_consumer(
+            # Subscribe to multiple topics
             topic=[
                 "analyzed_sentiment",
                 "raw_market_data",
-            ],  # Subscribe to multiple topics
+            ],
             group_id="aggregators",
         )
         self.assets = config.get("assets", [])
@@ -184,7 +186,7 @@ class AggregatorConsumer(BaseConsumer):
 
     def run(self):
         """Starts the main consumer loop."""
-        logger.info(f"Starting AggregatorConsumer loop...")
+        logger.info("Starting AggregatorConsumer loop...")
         try:
             for message in self.consumer:
                 now = time.time()
@@ -223,7 +225,7 @@ class AggregatorConsumer(BaseConsumer):
                             )
 
                 except Exception as e:
-                    logger.error(f"Error processing message: {e}", exc_info=True)
+                    logger.error("Error processing message: %s", e, exc_info=True)
 
         except KeyboardInterrupt:
             logger.info("Shutdown signal received.")
